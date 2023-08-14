@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import "./Indextation.css";
-import done from "../../imges/done.png";
+import done from "../../images/done.png";
 
 function Indextation () {
 
+    if (!localStorage.getItem("list_storage") && !localStorage.getItem("finished_storage")) {
+        localStorage.setItem("list_storage", JSON.stringify([]));
+        localStorage.setItem("finished_storage", JSON.stringify([]));
+    }
+
     const [tresc, setTesc] = useState("");
     const [czas, setCzas] = useState("");
-    const [list, setList] = useState([]);
-    const [finished, setFinished] = useState([])
+    const [list, setList] = useState(JSON.parse(localStorage.getItem("list_storage")));
+    const [finished, setFinished] = useState(JSON.parse(localStorage.getItem("finished_storage")));
     const [edtresc, setEdTresc] = useState("");
     const [edczas, setEdCzas] = useState("");
 
@@ -47,6 +52,7 @@ function Indextation () {
                 clrfinsh: Math.random().toString(),
                 dlt_id: Math.random().toString()
             });
+            localStorage.setItem("list_storage", JSON.stringify(updated_list));
             return updated_list;
         });
 
@@ -56,6 +62,7 @@ function Indextation () {
     function deleteEvent (elm) {
         setList(curr_event => {
             const updated_list = curr_event.filter(event => event.li_id !== elm.li_id);
+            localStorage.setItem("list_storage", JSON.stringify(updated_list));
             return updated_list;
         });
     }
@@ -68,7 +75,6 @@ function Indextation () {
         document.getElementById(elm.cnl_id).hidden = false;
         document.getElementById(elm.ok_id).hidden = false;
         document.getElementById(elm.dlt_id).hidden = false;
-        
     }
 
     function saveEvent (elm) {
@@ -82,6 +88,7 @@ function Indextation () {
 
         setList(curr_item => {
             const updated_list = curr_item.filter(() => (elm.event = edtresc || elm.event, elm.time = edczas || "bez czasu"));
+            localStorage.setItem("list_storage", JSON.stringify(updated_list));
             return updated_list;
         })
     }
@@ -107,6 +114,7 @@ function Indextation () {
 
         setList(curr_item => {
             const updated_list = curr_item.filter(check => check.li_id !== elm.li_id);
+            localStorage.setItem("list_storage", JSON.stringify(updated_list));
             return updated_list;
         })
 
@@ -117,18 +125,21 @@ function Indextation () {
                 time: elm.time,
                 id: Math.random().toString()
             });
+            localStorage.setItem("finished_storage", JSON.stringify(updated_list));
             return updated_list;
         })
     }
 
     function clearFinished () {
         setFinished([]);
+        localStorage.setItem("finished_storage", JSON.stringify([]));
         document.getElementById("full").hidden = true
     }
 
     function deleteFinished (elm) {
         setFinished(curr_item => {
             const updated_list = curr_item.filter(item => item.id !== elm.id);
+            localStorage.setItem("finished_storage", JSON.stringify(updated_list));
             return updated_list;
         });
         document.getElementById("full").hidden = true
