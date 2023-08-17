@@ -184,7 +184,7 @@ function Indextation () {
             return (
                 <li className="lidist">
                     <div className="res">
-                        <div className="r-tresc">{elemment.event}<img src={done} width={20} style={{paddingLeft: 7.5}}/></div>
+                        <div className="r-tresc">{elemment.event}<img src={done} alt="done" width={20} style={{paddingLeft: 7.5}}/></div>
                         <button id={elemment.clrfinsh} onClick={() => deleteFinished(elemment)}>WYCZYŚĆ</button>
                     </div>
                 </li>
@@ -245,7 +245,6 @@ function Indextation () {
                     <small id="full" hidden={true}><i> (BRAK MIEJSCA)</i></small>
                 </div>
             </div>
-
         </div>
     );
 }

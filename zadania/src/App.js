@@ -1,10 +1,11 @@
 import './App.css';
-import Indextation from './rozgrzewki/rozgrzewka 2/Indextation';
+import Wisielec from './rozgrzewki/rozgrzewka 3/Wisielec';
+
 
 function App() {
   return (
     <>
-      <Indextation />
+      <Wisielec />
     </>
   );
 }
