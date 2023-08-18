@@ -1,14 +1,19 @@
 import React from "react";
 import "./Wisielec.css";
-import wlc0 from "../../images/wlc0.png"
-import wlc1 from "../../images/wlc1.png"
-import wlc2 from "../../images/wlc2.png"
-import wlc3 from "../../images/wlc3.png"
-import wlc4 from "../../images/wlc4.png"
-import wlc5 from "../../images/wlc5.png"
-import wlc6 from "../../images/wlc6.png"
-import wlc7 from "../../images/wlc7.png"
-import wlc8 from "../../images/wlc8.png"
+import wlc0 from "../../images/wlcs/wlc0.png"
+import wlc1 from "../../images/wlcs/wlc1.png"
+import wlc2 from "../../images/wlcs/wlc2.png"
+import wlc3 from "../../images/wlcs/wlc3.png"
+import wlc4 from "../../images/wlcs/wlc4.png"
+import wlc5 from "../../images/wlcs/wlc5.png"
+import wlc6 from "../../images/wlcs/wlc6.png"
+import wlc7 from "../../images/wlcs/wlc7.png"
+import wlc8 from "../../images/wlcs/wlc8.png"
+import c2 from "../../images/clouds/c2.png"
+import c3 from "../../images/clouds/c3.png"
+import c4 from "../../images/clouds/c4.png"
+import c5 from "../../images/clouds/c5.png"
+import c6 from "../../images/clouds/c6.png"
 
 function Wisielec () {
 
@@ -28,7 +33,7 @@ function Wisielec () {
     }
 
     function confirmHandle () {
-        if (guessLetter === "") return
+        if (guessLetter === "" || guessLetter === " ") return
         setGuessLetter("");
 
         let COUNT = count;
@@ -76,30 +81,46 @@ function Wisielec () {
     function retryHandler () {
         setCount(0);
         setCorretWORD([]);
+        setGuessLetter("");
         setWORDIV(THEWORD.map((letter) => {
             return (
                 <span key={Math.random().toString()} className="div-letter"><span style={{display: "none"}}>{letter}</span></span>
             )
         }));
-        
     }
 
     return (
-        <>
-            <div className="clearfix">
-                <p>What Is This Man's Name?</p>
-
-                <div>{WORDIV}</div>
+        <div className="window-bg">
+            <div className="clouds">
+                <div><img id="c1" src={c5} width={200}/></div>
+                <div><img id="c2" src={c2} width={200}/></div>
+                <div><img id="c3" src={c3} width={200}/></div>
+                <div><img id="c4" src={c6} width={200}/></div>
+                <div><img id="c5" src={c2} width={200}/></div>
+                <div><img id="c6" src={c4}/></div>
+                <div><img id="c7" src={c3} width={200}/></div>
             </div>
+            
+            <div className="container">
+                <div className="clearfix">
+                    <p>What Is This Man's Name?</p>
 
-            <img src={GUIDE[count]} alt={`wlc${count}`}/>
+                    <div className="wordiv">{WORDIV}</div>
+                </div>
 
-            <form>
-                <input size={1} maxLength={1} onChange={letterHandle} value={guessLetter}/> <br />
-                <input type="button" value={"confirm"} onClick={confirmHandle} />
-                <input type="button" value={"retry"} onClick={retryHandler} />
-            </form>
-        </>
+                <img src={GUIDE[count]} alt={`wlc${count}`}/>
+
+                <form className="control">
+                    <div id="i">
+                        <input maxLength={1} onChange={letterHandle} value={guessLetter} />
+                    </div>
+                    <div id="b">
+                        <span className="ftn" onClick={confirmHandle}>Confirm</span>
+                        <span className="ftn" onClick={retryHandler}>Retry</span>
+                    </div>
+                </form>
+            </div>
+        </div>
     );
 }
 
