@@ -9,6 +9,8 @@ import wlc5 from "../../images/wlcs/wlc5.png"
 import wlc6 from "../../images/wlcs/wlc6.png"
 import wlc7 from "../../images/wlcs/wlc7.png"
 import wlc8 from "../../images/wlcs/wlc8.png"
+import wlca from "../../images/wlcs/wlca.png"
+import wlcb from "../../images/wlcs/wlcb.png"
 import c2 from "../../images/clouds/c2.png"
 import c3 from "../../images/clouds/c3.png"
 import c4 from "../../images/clouds/c4.png"
@@ -18,8 +20,10 @@ import c6 from "../../images/clouds/c6.png"
 function Wisielec () {
 
     const THEWORD = ["G", "U", "I", "D", "E"];
-    const GUIDE = [wlc0, wlc1, wlc2, wlc3, wlc4, wlc5, wlc6, wlc7, wlc8];
-    const [count, setCount] = React.useState(0)
+    const GUIDE = [wlca, wlc0, wlc1, wlc2, wlc3, wlc4, wlc5, wlc6, wlc7, wlc8, wlcb];
+    const [count, setCount] = React.useState(1)
+    const [vic, setVic] = React.useState("none");
+    const [slain, setSlain] = React.useState(["none", "inline-block"]);
     const [correctWORD, setCorretWORD] = React.useState([]);
     const [guessLetter, setGuessLetter] = React.useState("");
     const [WORDIV, setWORDIV] = React.useState(THEWORD.map((letter) => {
@@ -52,10 +56,10 @@ function Wisielec () {
         for (let index = 0; index < corAray.length; index++) {
             if (!corAray[index]) break;
             else if (index === corAray.length - 1) {
-                console.log("win");
-                document.write("YOU WIN");
                 COUNT = 0;
-                return;
+                setCount(COUNT);
+                setSlain(["none", "none"]);
+                setVic("victory");
             }
         }
 
@@ -72,14 +76,18 @@ function Wisielec () {
             return WORDIVupdate;
         });
 
-        if (COUNT > 8) {
-            console.log(COUNT);
-            document.write("YOU LOSE");
+        if (COUNT > 9) {
+            COUNT = 10;
+            setCount(COUNT);
+            setVic("lost")
+            setSlain(["inline-block", "none"]);
         }
     }
 
     function retryHandler () {
-        setCount(0);
+        setCount(1);
+        setVic("");
+        setSlain(["none", "inline-block"]);
         setCorretWORD([]);
         setGuessLetter("");
         setWORDIV(THEWORD.map((letter) => {
@@ -91,34 +99,40 @@ function Wisielec () {
 
     return (
         <div className="window-bg">
-            <div className="clouds">
-                <div><img id="c1" src={c5} width={200}/></div>
-                <div><img id="c2" src={c2} width={200}/></div>
-                <div><img id="c3" src={c3} width={200}/></div>
-                <div><img id="c4" src={c6} width={200}/></div>
-                <div><img id="c5" src={c2} width={200}/></div>
-                <div><img id="c6" src={c4}/></div>
-                <div><img id="c7" src={c3} width={200}/></div>
-            </div>
-            
-            <div className="container">
-                <div className="clearfix">
-                    <p>What Is This Man's Name?</p>
-
-                    <div className="wordiv">{WORDIV}</div>
+            <div className={vic}>
+                <div className="clouds" >
+                    <div><img id="c1" src={c5} width={200}/></div>
+                    <div><img id="c2" src={c2} width={200}/></div>
+                    <div><img id="c3" src={c3} width={200}/></div>
+                    <div><img id="c4" src={c6} width={200}/></div>
+                    <div><img id="c5" src={c2} width={200}/></div>
+                    <div><img id="c6" src={c4}/></div>
+                    <div><img id="c7" src={c3} width={200}/></div>
                 </div>
+                
+                <div className="container">
+                    <div className="clearfix">
+                        <p>What Is This Man's Name?</p>
 
-                <img src={GUIDE[count]} alt={`wlc${count}`}/>
+                        <div className="wordiv">{WORDIV}</div>
+                    </div>
 
-                <form className="control">
-                    <div id="i">
-                        <input maxLength={1} onChange={letterHandle} value={guessLetter} />
+                    <div className="slain" style={{display: slain[0]}}>
+                        You were slain...
                     </div>
-                    <div id="b">
-                        <span className="ftn" onClick={confirmHandle}>Confirm</span>
-                        <span className="ftn" onClick={retryHandler}>Retry</span>
-                    </div>
-                </form>
+
+                    <img src={GUIDE[count]} alt={`wlc${count}`}/>
+
+                    <form className="control">
+                        <div id="i">
+                            <input maxLength={1} onChange={letterHandle} value={guessLetter} />
+                        </div>
+                        <div id="b">
+                            <span className="ftn" onClick={confirmHandle} style={{display: slain[1]}}>Confirm</span>
+                            <span className="ftn" onClick={retryHandler}>Retry</span>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     );
